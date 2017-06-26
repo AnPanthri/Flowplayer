@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.example.FreeFlowPlayer.FreeFlowPlayerApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.902 sec - in com.example.FreeFlowPlayer.FreeFlowPlayerApplicationTests

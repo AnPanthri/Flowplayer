@@ -1,0 +1,112 @@
+<!doctype html>
+ 
+<html>
+
+<head>
+<meta charset="utf-8">
+
+<title>Flowplayer</title>
+<link rel="stylesheet"
+	href="http://releases.flowplayer.org/7.0.4/skin/skin.css">
+
+<style>
+body {
+	font-family: "myriad pro", tahoma, verdana, arial, sans-serif;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+#content {
+	margin: 50px auto;
+	max-width: 482px;
+	max-heigth: 500px;
+}
+</style>
+<script src="js/flowplayer/flowplayer-3.2.13.min.js"></script>
+<script
+	src="http://releases.flowplayer.org/hlsjs/flowplayer.hlsjs.min.js"></script>
+</head>
+
+<body>
+	<div id="content">
+		<div id="FlowDiv">
+			<div id="title"></div>
+		</div>
+		<p id="loading" class="info">&nbsp;</p>
+		<script>
+			var url;
+			var CAR="Mercedes";
+			 var autoplayallowed = flowplayer.support.firstframe;
+			url = window.frameElement.value;
+			var container = document.getElementById("FlowDiv");
+			var api=flowplayer(container, {
+				splash : true,
+				ratio : 9 / 16,
+				// optional: HLS levels offered for manual selection
+				hlsQualities : [ -1, 1, 3, 6 ],
+				clip : {
+					sources : [ {
+						type : "application/x-mpegurl",
+						src : url
+					} ]
+				},
+				embed: false
+
+			}).one("load progress",function(e, api, video) {
+						document.querySelector("#title").innerHTML = "Copart </br> Lot no: "+23+
+						"<br/> Vehicle number: "+33333333333333+
+						"<br/> RegistrationNumber: "+12334+
+						"<br/> VehcialyType: "+CAR+
+						"<br/> VehcialyNumber: "+45454545+
+						"<br/> Seller: "+"Seller"+
+						"<br/> Member: "+"Member"+
+						"<br/> Date: "+"Date"+
+						"<br/> ModelNUmber: "+"XYZ123"+
+						"<br/> Some Database values"+
+						"<br/> Some Database values"+
+						"<br/> Some Database values"+
+						"<br/> Some moreDatabase values";
+						 if (autoplayallowed && e.type == "load") {
+						      e.preventDefault();
+						      api.loading = false;
+						 }
+						 else if (!autoplayallowed && e.type == "progress") {
+						      // hack: pause after load at first progress
+						      api.pause();
+						 
+						    }
+						 if (autoplayallowed && e.type == "load" || !autoplayallowed && e.type == "progress") {
+						      var seconds = 5,
+						          state = document.getElementById("loading"),
+						 
+						      timer = setInterval(function() {
+						        seconds--;
+						        state.innerHTML = "Your video will start in " + seconds + " seconds ...";
+						 
+						        if (seconds === 0) {
+						          clearInterval(timer);
+						          api.load();
+						 
+						          if (!autoplayallowed && e.type == "progress") {
+						            // hack to hide engine in paused state
+						            container.className = container.className.replace("hide-engine", "");
+						 
+						          }
+						 
+						          state.innerHTML = "Your video is now playing.";
+						        }
+						      }, 1000);
+						    }
+				}).one("ready", function (e, api) {
+			    if (!autoplayallowed) {
+			      // hack to hide engine and pretend loading in paused state
+			      container.className = container.className + " is-splash is-loading";
+			    }
+			 
+			  });
+			
+		</script>
+	</div>
+</body>
+</html>
